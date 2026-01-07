@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Github, Linkedin, Mail, ExternalLink, ChevronDown, ChevronUp, FileText, Brain, Database, Cloud, Code, BookOpen, Gamepad2, Zap, Target, TrendingUp, Cpu, Layers, GitBranch, Building2, Trophy, ArrowRight, Users, Sparkles, Eye, Wrench, CircleOff, BrainCircuit, Binary} from 'lucide-react';
+import { Github, Linkedin, Mail, ExternalLink, ChevronDown, ChevronUp, FileText, Brain, Database, Cloud, Code, BookOpen, Gamepad2, Zap, Target, TrendingUp, Cpu, Layers, GitBranch, Building2, Trophy, ArrowRight, Users, Eye, Wrench, CircleOff, Sparkles, BrainCircuit, Binary } from 'lucide-react';
 
 const COLORS = {
   voidBlack: '#0d0d0d',
@@ -74,13 +74,15 @@ const TechLogo = ({ logo, size = 16 }) => {
   return null;
 };
 
-const StatCard = ({ number, label, icon: Icon, color }) => (
-  <div style={{ padding: '1.5rem', background: `linear-gradient(135deg, ${COLORS.cardBg}, rgba(139,92,246,0.1))`, backdropFilter: 'blur(10px)', borderRadius: '16px', border: `1px solid ${COLORS.borderGlow}`, textAlign: 'center', transition: 'all 0.3s ease' }}
+const StatCardSmall = ({ number, label, icon: Icon, color }) => (
+  <div style={{ padding: '0.75rem 1.25rem', background: `linear-gradient(135deg, ${COLORS.cardBg}, rgba(139,92,246,0.1))`, backdropFilter: 'blur(10px)', borderRadius: '12px', border: `1px solid ${COLORS.borderGlow}`, textAlign: 'left', transition: 'all 0.3s ease', display: 'flex', alignItems: 'center', gap: '0.75rem', minWidth: '160px' }}
     onMouseEnter={e => { e.currentTarget.style.borderColor = color; e.currentTarget.style.transform = 'scale(1.05)'; }}
     onMouseLeave={e => { e.currentTarget.style.borderColor = COLORS.borderGlow; e.currentTarget.style.transform = 'scale(1)'; }}>
-    <Icon size={28} style={{ color, marginBottom: '0.5rem' }} />
-    <div style={{ fontSize: '2rem', fontWeight: 'bold', color: COLORS.ghostWhite }}>{number}</div>
-    <div style={{ fontSize: '0.85rem', color: COLORS.silverMist }}>{label}</div>
+    <Icon size={22} style={{ color, flexShrink: 0 }} />
+    <div>
+      <div style={{ fontSize: '1.25rem', fontWeight: 'bold', color: COLORS.ghostWhite, lineHeight: 1.2 }}>{number}</div>
+      <div style={{ fontSize: '0.7rem', color: COLORS.silverMist }}>{label}</div>
+    </div>
   </div>
 );
 
@@ -179,6 +181,65 @@ const CompactProjectCard = ({ project, isExpanded, onToggle }) => (
   </div>
 );
 
+const ProfilePhoto = () => (
+  <div style={{ 
+    width: '320px', 
+    height: '320px', 
+    borderRadius: '20px', 
+    overflow: 'hidden', 
+    border: `3px solid ${COLORS.cyberBlue}50`,
+    boxShadow: `0 8px 40px ${COLORS.cyberBlue}30, 0 0 60px ${COLORS.cyberBlue}15`,
+    position: 'relative',
+    background: `linear-gradient(135deg, ${COLORS.cardBg}, ${COLORS.darkSpace})`,
+    flexShrink: 0,
+  }}>
+    {/* Placeholder - replace src with your actual photo path */}
+    <img 
+      src="/Maitreya_pic.jpeg" 
+      alt="Maitreya Darokar" 
+      style={{ 
+        width: '100%', 
+        height: '100%', 
+        objectFit: 'cover',
+      }}
+      onError={(e) => {
+        e.target.style.display = 'none';
+        e.target.nextSibling.style.display = 'flex';
+      }}
+    />
+    {/* Fallback placeholder if image doesn't load */}
+    <div style={{
+      display: 'none',
+      width: '100%',
+      height: '100%',
+      alignItems: 'center',
+      justifyContent: 'center',
+      flexDirection: 'column',
+      gap: '0.5rem',
+      color: COLORS.silverMist,
+      position: 'absolute',
+      top: 0,
+      left: 0,
+    }}>
+      <div style={{ 
+        width: '100px', 
+        height: '100px', 
+        borderRadius: '50%', 
+        backgroundColor: `${COLORS.cyberBlue}30`,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        fontSize: '2.5rem',
+        color: COLORS.cyberBlue,
+        fontWeight: 'bold'
+      }}>
+        MD
+      </div>
+      <span style={{ fontSize: '0.85rem', opacity: 0.7 }}>Add your photo</span>
+    </div>
+  </div>
+);
+
 const Portfolio = () => {
   const [scrolled, setScrolled] = useState(false);
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
@@ -226,7 +287,7 @@ const Portfolio = () => {
   const featuredProjects = [
     { title: 'SkillBridge AI', tagline: 'Career Navigator for the AI Era', description: 'Human-centered AI system helping mid-career professionals navigate AI-driven job displacement through evidence-based career transition pathways.', tech: ['LangGraph', 'RAG', 'PostgreSQL', 'React', 'Streamlit'], metrics: [{ value: '700K+', label: 'Reddit Posts' }, { value: '7', label: 'Thematic Clusters' }, { value: '92%', label: 'User Satisfaction' }], github: 'https://github.com/marr05/skillbridge-ui', icon: Target, color: COLORS.matrixGreen, details: { overview: 'SkillBridge AI addresses the growing challenge of AI-driven job displacement affecting mid-career professionals. The system analyzes career transition patterns from real-world data to provide personalized, evidence-based guidance for professionals looking to pivot into AI-resilient careers. It focuses on human-centered design principles, ensuring recommendations consider individual circumstances, transferable skills, and realistic transition timelines.', technical: 'Built using LangGraph for orchestrating multi-agent workflows that handle user profiling, skill gap analysis, and pathway generation. Implemented RAG architecture with PostgreSQL and pgvector for semantic search across 700K+ Reddit posts discussing career transitions. The system uses thematic clustering to identify 7 major career transition patterns and success factors. Frontend built with React and Streamlit for rapid prototyping and user testing.' }},
     { title: 'Serverless RAG System', tagline: 'Enterprise Document Intelligence', description: 'Production-grade serverless architecture enabling natural language queries on private enterprise documents with sub-second latency.', tech: ['AWS Lambda', 'ChromaDB', 'Llama 3', 'FastAPI', 'CDK'], metrics: [{ value: '<1s', label: 'Search Latency' }, { value: '99.9%', label: 'Uptime' }, { value: 'IaC', label: 'Deployment' }], github: 'https://github.com/marr05/RAG_TO_AWS', icon: Database, color: COLORS.cyberBlue, details: { overview: 'Enterprise-ready document intelligence system that allows organizations to query their private document repositories using natural language. Designed for scalability and cost-efficiency, the serverless architecture eliminates infrastructure management overhead while maintaining high availability and low latency for end users.', technical: 'Implemented using AWS Lambda for compute, with ChromaDB as the vector store for document embeddings. Llama 3 serves as the LLM backbone for query understanding and response generation. The entire infrastructure is defined as code using AWS CDK, enabling reproducible deployments and version-controlled infrastructure changes. FastAPI handles the API layer with automatic OpenAPI documentation.' }},
-    { title: 'SemEval 2024', tagline: 'Top 10 Global (Task 2) • Multimodal NLP', description: 'Propaganda detection in memes using multimodal fusion of visual and textual features across 22 propaganda technique categories.', tech: ['ResNet', 'BERT', 'ViT', 'DeBERTa', 'PyTorch'], metrics: [{ value: 'Top 10', label: 'Global (Task 2)' }, { value: '0.78', label: 'Weighted F1' }, { value: 'Multimodal', label: 'Fusion' }], icon: Trophy, color: COLORS.neonMagenta, details: { overview: 'Competed in SemEval 2024 Task 4: Multilingual Detection of Persuasion Techniques in Memes. The challenge involved detecting propaganda techniques in internet memes across 3 tasks, requiring understanding of both visual imagery and embedded text to identify manipulation tactics. Achieved Top 10 global ranking in Task 2 (technique classification).', technical: 'Developed a multimodal fusion architecture combining ResNet and ViT for image feature extraction with BERT and DeBERTa for text understanding. Implemented hierarchical classification for 22 propaganda technique categories. Used PyTorch for model development with custom training loops for handling class imbalance. Experimented with various fusion strategies including early, late, and attention-based fusion mechanisms.' }},
+    { title: 'SemEval 2024', tagline: 'Top 10 Global (Task 2) • Multimodal NLP', description: 'Propaganda detection in memes using multimodal fusion of visual and textual features across 22 propaganda technique categories.', tech: ['ResNet', 'BERT', 'ViT', 'DeBERTa', 'PyTorch'], metrics: [{ value: 'Top 10', label: 'Global (Task 2)' }, { value: '0.78', label: 'Weighted F1' }, { value: 'Multimodal', label: 'Fusion' }], github: 'https://github.com/sathkrith/memeclassifier', icon: Trophy, color: COLORS.neonMagenta, details: { overview: 'Competed in SemEval 2024 Task 4: Multilingual Detection of Persuasion Techniques in Memes. The challenge involved detecting propaganda techniques in internet memes across 3 tasks, requiring understanding of both visual imagery and embedded text to identify manipulation tactics. Achieved Top 10 global ranking in Task 2 (technique classification).', technical: 'Developed a multimodal fusion architecture combining ResNet and ViT for image feature extraction with BERT and DeBERTa for text understanding. Implemented hierarchical classification for 22 propaganda technique categories. Used PyTorch for model development with custom training loops for handling class imbalance. Experimented with various fusion strategies including early, late, and attention-based fusion mechanisms.' }},
   ];
 
   const otherProjects = [
@@ -316,11 +377,14 @@ const Portfolio = () => {
               </div>
             </AnimatedSection>
             <AnimatedSection delay={0.2}>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '1rem' }}>
-                <StatCard number="2.5+" label="Years Experience" icon={Zap} color={COLORS.cyberBlue} />
-                <StatCard number="15+" label="ML Models Built" icon={Brain} color={COLORS.electricPurple} />
-                <StatCard number="500+" label="Hours Saved Annually" icon={TrendingUp} color={COLORS.matrixGreen} />
-                <StatCard number="Top 10" label="Global @ SemEval" icon={Trophy} color={COLORS.neonMagenta} />
+              <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
+                <ProfilePhoto />
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+                  <StatCardSmall number="2.5+" label="Years Exp" icon={Zap} color={COLORS.cyberBlue} />
+                  <StatCardSmall number="15+" label="ML Models" icon={Brain} color={COLORS.electricPurple} />
+                  <StatCardSmall number="500+" label="Hours Saved" icon={TrendingUp} color={COLORS.matrixGreen} />
+                  <StatCardSmall number="Top 10" label="SemEval" icon={Trophy} color={COLORS.neonMagenta} />
+                </div>
               </div>
             </AnimatedSection>
           </div>
@@ -331,7 +395,7 @@ const Portfolio = () => {
         <div style={{ maxWidth: '1400px', margin: '0 auto' }}>
           <AnimatedSection>
             <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '3rem' }}>
-              <Binary size={34} style={{ color: COLORS.cyberBlue }} /><h2 style={{ fontSize: '2rem' }}>About Me</h2>
+              <Binary size={32} style={{ color: COLORS.cyberBlue }} /><h2 style={{ fontSize: '2rem' }}>About Me</h2>
               <div style={{ flex: 1, height: '2px', background: `linear-gradient(90deg, ${COLORS.cyberBlue}, transparent)` }} />
             </div>
           </AnimatedSection>
